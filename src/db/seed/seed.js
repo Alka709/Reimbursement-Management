@@ -38,7 +38,7 @@ async function seed() {
   await db.insert(users).values({
     name: CFO_NAME,
     email: CFO_EMAIL,
-    passwordHash,
+    password: passwordHash,
     role: "CFO",
   });
 
