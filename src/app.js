@@ -23,9 +23,9 @@ app.get("/health", (_req, res) => {
   res.status(200).json({ status: "ok", timestamp: new Date().toISOString() });
 });
 
-// ── Routes (mount here later) ─────────────────────────────────────────────────
-// e.g. app.use("/api/auth",   authRoutes);
-//      app.use("/api/users",  userRoutes);
+// ── Routes ──────────────────────────────────────────────────────────────────────
+const authRoutes = require("./routes/auth.routes");
+app.use("/api/auth", authRoutes);
 
 // ── 404 handler ───────────────────────────────────────────────────────────────
 app.use((_req, res) => {
