@@ -10,12 +10,12 @@ router.post("/register", authController.register);
 router.post("/login", authController.login);
 router.post("/logout", authController.logout);
 
-// Protected route to verify cookie extraction
-router.get("/me", authenticateUser, (req, res) => {
-  res.status(200).json({
-    success: true,
-    data: req.user,
-  });
-});
+// // Protected route to verify cookie extraction
+// router.get("/me", authenticateUser, (req, res) => {
+//   res.status(200).json({
+//     success: true,
+//     data: req.user,
+//   });
+// });
 
 module.exports = router;

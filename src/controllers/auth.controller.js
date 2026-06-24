@@ -3,6 +3,7 @@
 const AuthService = require("../services/auth.service");
 const AppError = require("../utils/AppError");
 
+
 // Helper for basic input validation
 const validateInput = (fields) => {
   for (const [key, value] of Object.entries(fields)) {
@@ -16,7 +17,10 @@ exports.register = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
     validateInput({ name, email, password });
-
+    
+    if (!email.toLowerCase().endsWith("@org.com")) {
+      throw new AppError("Only org.com email addresses are allowed",400);
+    }
     const newUser = await AuthService.register(name, email, password);
 
     res.status(201).json({
@@ -32,6 +36,10 @@ exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     validateInput({ email, password });
+
+    if (!email.toLowerCase().endsWith("@org.com")) {
+      throw new AppError("Only org.com email addresses are allowed",400);
+    }
 
     const { user, token } = await AuthService.login(email, password);
 

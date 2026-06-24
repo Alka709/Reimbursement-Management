@@ -29,7 +29,7 @@ const roleRoutes = require("./routes/role.routes");
 const employeeRoutes = require("./routes/employee.routes");
 const reimbursementRoutes = require("./routes/reimbursement.routes");
 
-app.use("/api/auth", authRoutes);
+app.use("/rest/onboardings", authRoutes);
 app.use("/rest/roles", roleRoutes);
 app.use("/rest/employees", employeeRoutes);
 app.use("/rest/reimbursements", reimbursementRoutes);

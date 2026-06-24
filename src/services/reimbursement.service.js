@@ -14,6 +14,19 @@ class ReimbursementService {
     if (amount <= 0) {
       throw new AppError("Amount must be greater than zero", 400);
     }
+      // Employee must be assigned to an RM before creating reimbursements
+    const [mapping] = await db
+      .select()
+      .from(employeeManager)
+      .where(eq(employeeManager.employeeId, employeeId))
+      .limit(1);
+
+    if (!mapping) {
+      throw new AppError(
+        "Employee must be assigned to a reporting manager before creating reimbursements",
+        400
+      );
+    }
 
     const [newReimbursement] = await db
       .insert(reimbursements)
