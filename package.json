@@ -1,0 +1,29 @@
+{
+  "name": "reimbursement-backend",
+  "version": "1.0.0",
+  "description": "Reimbursement management backend – Node.js, Express, PostgreSQL (Supabase), Drizzle ORM",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "db:migrate": "drizzle-kit migrate",
+    "db:seed-data": "node src/db/seed/seed.js"
+  },
+  "keywords": ["express", "drizzle", "supabase", "postgresql", "jwt"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "drizzle-orm": "^0.45.2",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "pg": "^8.22.0"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.31.10",
+    "nodemon": "^3.1.14"
+  }
+}
+
