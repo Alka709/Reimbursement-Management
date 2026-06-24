@@ -27,10 +27,12 @@ app.get("/health", (_req, res) => {
 const authRoutes = require("./routes/auth.routes");
 const roleRoutes = require("./routes/role.routes");
 const employeeRoutes = require("./routes/employee.routes");
+const reimbursementRoutes = require("./routes/reimbursement.routes");
 
 app.use("/api/auth", authRoutes);
 app.use("/rest/roles", roleRoutes);
 app.use("/rest/employees", employeeRoutes);
+app.use("/rest/reimbursements", reimbursementRoutes);
 
 // ── 404 handler ───────────────────────────────────────────────────────────────
 app.use((_req, res) => {
