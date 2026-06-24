@@ -1,0 +1,229 @@
+# Prompt Logs
+
+## Prompt 1 — Project Setup & Database Foundation
+
+Create the initial project setup for a backend assignment using:
+
+* Node.js
+* Express.js
+* PostgreSQL (Supabase)
+* Drizzle ORM
+* JWT Authentication
+* HTTP-only Cookies
+* bcrypt
+
+Requirements:
+
+* MVC architecture
+* Drizzle configuration
+* Supabase connection
+* Database schemas
+* Migration setup
+* CFO seed setup
+
+Deliverables:
+
+* Project structure
+* Database configuration
+* Migration commands
+* Seed setup
+
+---
+
+## Prompt 2 — Database Schema Design
+
+Implement only the database layer.
+
+Create PostgreSQL enums:
+
+### role_enum
+
+* EMP
+* RM
+* APE
+* CFO
+
+### approval_status_enum
+
+* PENDING
+* APPROVED
+* REJECTED
+
+Create schemas:
+
+### users
+
+* id
+* name
+* email
+* password
+* role
+* createdAt
+* updatedAt
+
+### employee_manager
+
+* id
+* employeeId
+* managerId
+* createdAt
+
+### reimbursements
+
+* id
+* employeeId
+* title
+* description
+* amount
+* rmApproval
+* apeApproval
+* finalStatus
+* createdAt
+* updatedAt
+
+Requirements:
+
+* UUID primary keys
+* Relationships
+* Migration compatibility with Supabase
+
+---
+
+## Prompt 3 — Role Assignment & Employee Management
+
+Authentication system already complete.
+
+Implement only:
+
+### Role Assignment
+
+POST /rest/roles/assign
+
+Responsibilities:
+
+* Find user
+* Validate role
+* Update role
+* Handle edge cases
+
+### Employee Assignment
+
+POST /rest/employees/assign
+
+Responsibilities:
+
+* Validate employee
+* Validate manager
+* Create mapping
+
+### Employee Removal
+
+DELETE /rest/employees/assign
+
+Responsibilities:
+
+* Find mapping
+* Delete mapping
+
+### Employee Visibility
+
+GET /rest/employees
+
+Visibility:
+
+* EMP → Forbidden
+* RM → Direct reports
+* APE → All EMP + RM
+* CFO → All users
+
+---
+
+## Prompt 4 — Reimbursement Workflow
+
+Implement only the reimbursement module.
+
+### Reimbursement Creation
+
+POST /rest/reimbursements
+
+EMP only.
+
+Request:
+
+{
+"title": "...",
+"description": "...",
+"amount": 2500
+}
+
+Behavior:
+
+* employeeId from JWT
+* amount > 0
+* create reimbursement
+* default statuses = PENDING
+
+### Reimbursement Approval
+
+PATCH /rest/reimbursements
+
+Roles:
+
+* RM
+* APE
+* CFO
+
+Request:
+
+{
+"reimbursementId": "...",
+"status": "APPROVED"
+}
+
+### RM Rules
+
+* Only assigned employees
+* Reimbursement must exist
+* Not finalized
+
+### APE Rules
+
+* RM approval required first
+
+### CFO Rules
+
+* Can approve/reject any reimbursement
+
+### Final Status Logic
+
+* RM rejected → REJECTED
+* APE rejected → REJECTED
+* RM approved + APE approved → APPROVED
+* Otherwise → PENDING
+
+### Visibility Rules
+
+EMP:
+
+* Own reimbursements
+
+RM:
+
+* Pending reimbursements of direct reports
+
+APE:
+
+* RM-approved reimbursements
+
+CFO:
+
+* APE-approved reimbursements
+
+### Additional Endpoint
+
+GET /rest/reimbursements/:userId
+
+Accessible only when:
+
+* Target user is EMP
+* Target EMP is subordinate of requesting RM
