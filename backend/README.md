@@ -1,4 +1,4 @@
-# Reimbursement Management System
+# Reimbursement Management System - BACKEND
 
 Backend implementation for a reimbursement approval workflow built using Node.js, Express.js, PostgreSQL (Supabase), and Drizzle ORM.
 
