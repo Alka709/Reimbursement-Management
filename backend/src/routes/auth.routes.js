@@ -10,12 +10,7 @@ router.post("/register", authController.register);
 router.post("/login", authController.login);
 router.post("/logout", authController.logout);
 
-// // Protected route to verify cookie extraction
-// router.get("/me", authenticateUser, (req, res) => {
-//   res.status(200).json({
-//     success: true,
-//     data: req.user,
-//   });
-// });
+// Protected route — returns the authenticated user's { userId, role } from the JWT
+router.get("/profile", authenticateUser, authController.profile);
 
 module.exports = router;

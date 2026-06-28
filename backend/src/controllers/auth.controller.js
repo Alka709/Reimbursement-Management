@@ -76,3 +76,18 @@ exports.logout = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.profile = async (req, res, next) => {
+  try {
+    res.status(200).json({
+      success: true,
+      data: {
+        userId: req.user.userId,
+        role: req.user.role,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
