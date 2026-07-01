@@ -1,7 +1,9 @@
 import React from 'react';
 import { isCFO, isRM } from '../../utils/roleUtils';
+import { useNavigate } from 'react-router-dom';
 
 function EmployeeTable({ employees, currentUser, onRemoveAssignment }) {
+  const navigate = useNavigate();
   if (!employees || employees.length === 0) {
     return null;
   }
@@ -18,7 +20,7 @@ function EmployeeTable({ employees, currentUser, onRemoveAssignment }) {
     return employee.managerName || 'Not assigned';
   };
 
-  const showActions = isCFO(currentUser.role);
+  const showActions = isCFO(currentUser.role) || isRM(currentUser.role);
 
   return (
     <div className="table-wrapper">
@@ -54,7 +56,7 @@ function EmployeeTable({ employees, currentUser, onRemoveAssignment }) {
               <td>{getManagerDisplay(emp)}</td>
               {showActions && (
                 <td style={{ textAlign: 'right' }}>
-                  {emp.role === 'EMP' && emp.managerId ? (
+                  {isCFO(currentUser.role) && emp.role === 'EMP' && emp.managerId ? (
                     <button
                       type="button"
                       onClick={() => onRemoveAssignment(emp.id, emp.managerId, emp.name, emp.managerName)}
@@ -63,10 +65,21 @@ function EmployeeTable({ employees, currentUser, onRemoveAssignment }) {
                     >
                       Remove
                     </button>
-                  ) : (
+                  ) : isCFO(currentUser.role) && emp.role === 'EMP' ? (
                     <span style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)', fontStyle: 'italic' }}>
-                      {emp.role === 'EMP' ? 'No assignment' : '—'}
+                      No assignment
                     </span>
+                  ) : null}
+
+                  {isRM(currentUser.role) && emp.role === 'EMP' && (
+                    <button
+                      type="button"
+                      onClick={() => navigate(`/reimbursements?userId=${emp.id}`)}
+                      className="btn btn-secondary"
+                      style={{ padding: '0.25rem 0.75rem', fontSize: '0.8rem', marginLeft: '0.5rem' }}
+                    >
+                      View History
+                    </button>
                   )}
                 </td>
               )}
